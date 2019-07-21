@@ -1,0 +1,240 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{MazzoleniNotation}[2016/12/22]
+\RequirePackage{MnSymbol}
+\RequirePackage{graphicx}
+\RequirePackage{amsmath}
+\RequirePackage{leftidx}
+\RequirePackage{amssymb}
+\RequirePackage{amsfonts}
+%\RequirePackage{xfrac}
+
+% Modification table:
+% 1. CDY, 12/26/2016, Original writing
+% 2. CDY, 07/24/2017, Added functions regarding quaternions in BCO matrix, etc.
+% 3. CDY, 07/26/2017, Fixed errors in quaternions
+% 4. CDY, 08/02/2017, Added corrections to quaternion functions as per feedback.
+
+% Defien the custom formatting
+% Write fractions with slash:
+\newcommand*\Rfrac[2]{\ensuremath{{}^{#1}\!/_{#2}}}
+
+% adjust vertical spacing
+% https://tex.stackexchange.com/questions/194798/change-vertical-space-in-overset
+\makeatletter
+\newcommand{\oset}[3][0ex]{%https://www.overleaf.com/project/5c485f20f49bc727c8db2310
+  \mathrel{\mathop{#3}\limits^{
+    \vbox to#1{\kern-2\ex@
+    \hbox{$\scriptstyle#2$}\vss}}}}
+\makeatother
+
+% shorten over harpoons
+% \newcommand*\overpoon[1]{\overrightharpoon{{\mkern -24mu}#1{\mkern -24mu}}}
+\newcommand*\overpoon[1]{\ensuremath{\oset[-0.2ex]{\rightharpoonup}{#1}}}
+
+% % Write a unit vector
+% changed on 07-18-2019 based on APM comments
+% \newcommand*\UnitVec[2]{\ensuremath{\vec{#1}_{\bar{#2}}}}
+% \newcommand*\UnitVec[2]{\ensuremath{{\overrightharpoon{#1}}_{\bar{#2}}}}
+\newcommand*\UnitVec[2]{\ensuremath{{\overpoon{#1}}_{\bar{#2}}}}
+
+% % Write the frame definition
+% changed 07-18-2019 based on APM comments
+% \newcommand*\FrameDef[2]{\ensuremath{\{{#1},\UnitVec{i}{#2}, \UnitVec{j}{#2}, \UnitVec{k}{#2}\}}}
+\newcommand*\FrameDef[2]{\ensuremath{\overpoon{#1}\>= \{{#1},\UnitVec{i}{#2}, \UnitVec{j}{#2}, \UnitVec{k}{#2}\}}}
+
+
+% Write a quantity in framed curly brakcets
+\newcommand*\Frame[2]{\ensuremath{{\{#1\}}_{\bar{#2}}}}
+
+% Write the vector components
+\newcommand*\VecExpressH[4]{\ensuremath{\{{#2}\UnitVec{i}{#1} + {#3}\UnitVec{j}{#1} + {#4}\UnitVec{k}{#1}\}}}	% horizontal
+\newcommand*\VecExpressV[3]{\ensuremath{
+	\begin{Bmatrix}
+		{#1} \\
+		{#2} \\
+		{#3}
+	\end{Bmatrix}
+}}
+\newcommand*\VecExpressVF[4]{\ensuremath{
+		\begin{Bmatrix}
+			{#1} \\
+			{#2} \\
+			{#3} \\
+			{#4}
+		\end{Bmatrix}
+}}
+
+% Write a position vector:
+\newcommand*\PosVec[2]{\ensuremath{\vec{r}_{\Rfrac{#1}{#2}}}}						% w/out a frame
+
+% Write a rotation matrix about a given unit vector:
+\newcommand*\RotateMat[2]{\ensuremath{ ^{\bar{#1}}\lbrack{C}\rbrack^{\bar{#2}}}}			% just BCO matrix
+\newcommand*\RotateMatDot[2]{\ensuremath{ ^{\bar{#1}}\lbrack{\dot{C}}\rbrack^{\bar{#2}}}}			% just BCO derivative matrix
+\newcommand*\RotateMatX[1]{\ensuremath{
+	\begin{bmatrix}
+		1 & 0 & 0 \\
+		0 & cos(#1) & sin(#1) \\
+		0 & -sin(#1) & cos(#1) 
+	\end{bmatrix}
+}}
+\newcommand*\RotateMatY[1]{\ensuremath{
+	\begin{bmatrix}
+		cos(#1) & 0 & -sin(#1) \\
+		0 & 1 & 0 \\
+		sin(#1) & 0& cos(#1) 
+	\end{bmatrix}
+}}
+\newcommand*\RotateMatZ[1]{\ensuremath{
+	\begin{bmatrix}
+		cos(#1) & sin(#1) & 0  \\
+		-sin(#1) & cos(#1) & 0  \\
+		0 & 0 & 1
+	\end{bmatrix}
+}}
+
+% Upper right index
+\newcommand{\UpRight}[2]{\ensuremath{\leftidx{^{\bar{#1}}}{#2}}}
+
+% Derivative
+\newcommand{\Deriv}[2][]{% \deriv[<order>]{<func>}{<var>}
+	\ensuremath{\frac{d^{#1}}{d{#2}^{#1}}}}
+%\newcommand{\sDeriv}[2][]{% \deriv[<order>]{<func>}{<var>}
+	%\ensuremath{\sfrac{d^{#1}}{d{#2}^{#1}}}}
+
+
+% Partial
+\newcommand{\Partl}[2][]{% \deriv[<order>]{<func>}{<var>}
+	\ensuremath{\frac{\partial^{#1}}{\partial{#2}^{#1}}}}
+
+% Write a derivative:
+\newcommand*\ddt{\ensuremath{\frac{d}{dt}}}
+% \newcommand*\Fddt[1]{\frac{^{\bar{#1}}d}{dt}}
+\newcommand*\Fddt[1] {\ensuremath{\leftidx{^{\bar{#1}}}{\ddt}}}
+\newcommand*\ddtn[1]{\ensuremath{\frac{d^{#1}}{dt^{#1}}}}
+% \newcommand*\Fddtn[2]{\frac{^{\bar{#1}}d^{#2}}{dt^{#2}}}
+\newcommand*\Fddtn[2]{\ensuremath{\leftidx{^{\bar{#1}}}{\ddtn{#2}}}}
+
+% Write an angular velocity vector:
+\newcommand*\AngVel[2]{\ensuremath{^{\bar{#1}}\vec{\omega}^{\bar{#2}}}}
+
+% Write the full form for wx, wy, wz
+% modified on 07-18-2019 from APM comments
+%\newcommand*\wX[2]{\ensuremath{\{0, 0, 1\}*\RotateMat{#1}{#2}*\RotateMatDot{#2}{#1}*\VecExpressV{0}{1}{0}}}
+%\newcommand*\wY[2]{\ensuremath{\{1, 0, 0\}*\RotateMat{#1}{#2}*\RotateMatDot{#2}{#1}*\VecExpressV{0}{0}{1}}}
+%\newcommand*\wZ[2]{\ensuremath{\{0, 1, 0\}*\RotateMat{#1}{#2}*\RotateMatDot{#2}{#1}*\VecExpressV{1}{0}{0}}}
+\newcommand*\wX[2]{\ensuremath{\{0, 0, 1\}\RotateMat{#1}{#2}\RotateMatDot{#2}{#1}\VecExpressV{0}{1}{0}}}
+\newcommand*\wY[2]{\ensuremath{\{1, 0, 0\}\RotateMat{#1}{#2}\RotateMatDot{#2}{#1}\VecExpressV{0}{0}{1}}}
+\newcommand*\wZ[2]{\ensuremath{\{0, 1, 0\}\RotateMat{#1}{#2}\RotateMatDot{#2}{#1}\VecExpressV{1}{0}{0}}}
+
+% Write a velocity vector:
+\newcommand*\VelVec[3]{\ensuremath{^{\bar{#1}}{\vec{v}}_{\Rfrac{#2}{#3}}}}
+
+% Write the Cross product
+\newcommand*\Cross[2]{\ensuremath{#1\times#2}}
+
+% Write the transport theorem, 1st derivative
+\newcommand*\TransOne[3]{\UpRight{#1}{\Deriv[]{t}}{#3} = \UpRight{#2}{\Deriv[]{t}}{#3} + \Cross{\AngVel{#1}{#2}}{#3}}
+
+% Write an angular acceleration vector
+\newcommand*\AngAccl[2]{\ensuremath{^{\bar{#1}}\vec{\alpha}^{\bar{#2}}}}
+
+% Write an acceleration vector:
+\newcommand*\AcclVec[3]{\ensuremath{ ^{\bar{#1}}{\vec{a}}_{\Rfrac{#2}{#3}}}}
+
+% Write the transport theorem, 2nd derivative
+\newcommand*\TransTwo[3]{\UpRight{#1}{\Deriv[2]{t}}{#3} = \UpRight{#2}{\Deriv[2]{t}}{#3} + 2\Cross{\AngVel{#1}{#2}}\UpRight{#2}{\Deriv[]{t}}{#3} + \Cross{\AngAccl{#1}{#2}}{#3} + \Cross{\AngVel{#1}{#2}}{\left(\Cross{\AngVel{#1}{#2}}{#3}\right)}}
+
+% Write the inertia tensor
+\newcommand*\Inert[1]{\ensuremath{\tilde{I}_{#1}}}
+\newcommand*\InertF[2]{\ensuremath{\lbrack\tilde{I}_{#1}\rbrack_{\bar{#2}}}}
+\newcommand*\InertMat{\ensuremath{	
+	\begin{bmatrix}
+		I_{xx} & I_{xy} & I_{xz} \\
+		I_{xy} & I_{yy} & I_{yz} \\
+		I_{xz} & I_{yz} & I_{zz}
+	\end{bmatrix}}}
+\newcommand*\UnitDyad[3]{\ensuremath{\UnitVec{#1}{#3} \UnitVec{#2}{#3}}}
+% \newcommand*\InertDyad[3]{}
+
+% Write an angular momentum vector:
+\newcommand*\AngMom[3]{\ensuremath{\leftidx{_{#2}^{\bar{#1}}}{\vec{h}}{_#3}}}
+
+% Write a force vector:
+\newcommand*\Fext{\ensuremath{\sum{\vec{F}_{ext}}}}
+
+% Write a torque vector:
+\newcommand*{\Text}[1][]{\ensuremath{\sum{\vec{\tau}_{#1}}}}
+
+% Write the Lagrange L
+\newcommand*\Lagr{\ensuremath{\mathcal{L}}}
+
+% Write a quaternion expression
+\newcommand*\QuatDef[1]{\ensuremath{q_0 + q_1\UnitVec{i}{#1} + q_2\UnitVec{j}{#1} + q_3\UnitVec{k}{#1}}}
+
+% Write BCO matrix expression in quaternions
+\newcommand*\QuatBCO{\ensuremath{
+	\begin{bmatrix}
+		q^2_0 + q^2_1 - q^2_2 - q^2_3 & 2(q_1q_2 + q_0q_3)    & 2(q_1q_3 - q_0q_2) \\
+		2(q_1q_2 - q_0q_3)    & q^2_0 - q^2_1 + q^2_2 - q^2_3 & 2(q_2q_3 + q_0q_1) \\
+		2(q_1q_3 + q_0q_2)    & 2(q_2q_3 - q_0q_1)    & q_0 - q^2_1 - q^2_2 + q^2_3
+	\end{bmatrix}
+}}
+
+% Quaternion derivatives as a function of omega
+\newcommand*{\QuatAngle}{\ensuremath{
+		\begin{matrix}
+			q_0 & = & cos(\frac{\phi}{2}) \\
+			q_1 & = & a_x sin(\frac{\phi}{2}) \\
+			q_2 & = & a_y sin(\frac{\phi}{2}) \\
+			q_3 & = & a_z sin(\frac{\phi}{2})
+	\end{matrix}}
+}
+
+% Quaternion as a function of angle and vector
+\newcommand*{\OmegaMat}{\ensuremath{
+	\begin{bmatrix}
+		0 			& -\omega_x & -\omega_y & -\omega_z \\
+		\omega_x	& 0			& \omega_z  & -\omega_y \\
+		\omega_y	& -\omega_z & 0			& \omega_x \\
+		\omega_z	& \omega_y  & -\omega_x  & 0
+	\end{bmatrix}	
+}}
+
+\newcommand*\QuatDot{\ensuremath{
+	\VecExpressVF{\dot{q}_0}{\dot{q}_1}{\dot{q}_2}{\dot{q}_3} = \frac{1}{2}\OmegaMat\VecExpressVF{q_0}{q_1}{q_2}{q_3}
+}}
+
+% Direction cosine matrix in Cii
+\newcommand*\DirectCosMat{\ensuremath{
+		\begin{bmatrix}
+			C_{11} & C_{12} & C_{13} \\
+			C_{21} & C_{22} & C_{23} \\
+			C_{31} & C_{32} & C_{33}
+		\end{bmatrix}
+}}
+
+% Rotation matrices
+\newcommand*\Rotate[2]{\ensuremath{[R{#1}]_{{#2}}}}
+
+% Cross product
+\newcommand*\CrossProd[7]{\ensuremath{
+		\begin{array}{|ccc|}
+			\UnitVec{i}{#1} & \UnitVec{j}{#1} & \UnitVec{k}{#1} \\
+			{#2}			& {#3}			  & {#4}			\\
+			{#5}			& {#6}			  & {#7}			\\
+		\end{array}
+}}
+
+% Quaternion matrix
+\newcommand*\QuatMat{\ensuremath{
+	\begin{bmatrix}
+	-q_1 & q_0  & q_3  & -q_2 \\
+	-q_2 & -q_3 & q_0  & q_1  \\
+	-q_3 & q_2  & -q_1 & q_0  \\
+	q_0  & q_1  & q_2  & q_3
+\end{bmatrix}	
+}}
+
+
+
+\endinput
