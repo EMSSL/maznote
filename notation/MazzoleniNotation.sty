@@ -2,9 +2,7 @@
 \RequirePackage{amsmath, amssymb, amsfonts}
 \RequirePackage{leftidx}
 
-%% List of Commands
-% These commands can be migrated to a style sheet when development is finished
-% command modules
+% Generic command modules
 \newcommand{\slashfrac}[2]{\ensuremath{{}^{#1}\!/_{#2}}} % makes fractions slash style
 \newcommand{\aWRTb}[3]{\ensuremath{^{\refFrame{#2}}\vec{#1}^{\refFrame{#3}}}} % Generic vector #1 property of #3 with respect to #2
 \newcommand{\lUDrD}[4]{\ensuremath{\leftidx{_{#3}^{\bar{#1}}}{\vec{#2}}_{#4}}} % left Up Down right Down
@@ -26,7 +24,6 @@
 \newcommand{\velVecP}[4]{\ensuremath{^{\bar{#1}}{\vec{#2}}_{\slashfrac{#3}{#4}}}}
 %\newcommand*\angVel[2]{\ensuremath{^{\refFrame{#1}}\vec{\omega}^{\refFrame{#2}}}}
 \newcommand*\angVel[2]{\aWRTb{\omega}{#1}{#2}}
-
 
 \newcommand*\angAccl[2]{\aWRTb{\alpha}{#1}{#2}}
 
