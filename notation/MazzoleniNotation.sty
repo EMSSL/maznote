@@ -4,9 +4,13 @@
 
 %% List of Commands
 % These commands can be migrated to a style sheet when development is finished
-% Generic commands
-\newcommand{\slashfrac}[2]{\ensuremath{{}^{#1}\!/_{#2}}}
-% Mazzoleni notation specific commands
+% command modules
+\newcommand{\slashfrac}[2]{\ensuremath{{}^{#1}\!/_{#2}}} % makes fractions slash style
+\newcommand{\aWRTb}[3]{\ensuremath{^{\refFrame{#2}}\vec{#1}^{\refFrame{#3}}}} % Generic vector #1 property of #3 with respect to #2
+\newcommand{\lUDrD}[4]{\ensuremath{\leftidx{_{#3}^{\bar{#1}}}{\vec{#2}}_{#4}}} % left Up Down right Down
+\newcommand{\lUrD}[3]{\ensuremath{\leftidx{^{\bar{#1}}}{\vec{#2}}_{#3}}} % left Up Down right Down
+
+% Mazzoleni notation commands
 % Frames
 \newcommand{\refFrame}[1]{\ensuremath{\bar{#1}}}
 \newcommand{\refFrameDefIJK}[2]{\ensuremath{\{{#1},\basisVec{i}{#2}, \basisVec{j}{#2}, \basisVec{k}{#2}\}}}
@@ -20,7 +24,13 @@
 
 \newcommand{\velVec}[2]{\ensuremath{^{\bar{#1}}{\vec{#2}}}}
 \newcommand{\velVecP}[4]{\ensuremath{^{\bar{#1}}{\vec{#2}}_{\slashfrac{#3}{#4}}}}
+%\newcommand*\angVel[2]{\ensuremath{^{\refFrame{#1}}\vec{\omega}^{\refFrame{#2}}}}
+\newcommand*\angVel[2]{\aWRTb{\omega}{#1}{#2}}
 
-\newcommand{\angMomFull}[5]{\ensuremath{\leftidx{_{#3}^{\bar{#1}}}{\vec{#2}}_{\slashfrac{#4}{#5}}}}
-\newcommand{\angMom}[4]{\ensuremath{\leftidx{^{\bar{#1}}}{\vec{#2}}_{\slashfrac{#3}{#4}}}}
-\newcommand{\angMomS}[3]{\ensuremath{\leftidx{^{\bar{#1}}}{\vec{#2}}_{#3}}}
+
+\newcommand*\angAccl[2]{\aWRTb{\alpha}{#1}{#2}}
+
+\newcommand{\angMomFull}[5]{\lUDrD{#1}{#2}{#3}{\slashfrac{#4}{#5}}}
+\newcommand{\angMom}[4]{\lUrD{#1}{#2}{\slashfrac{#3}{#4}}}
+\newcommand{\angMomS}[3]{\lUrD{#1}{#2}{#3}}
+
