@@ -1,0 +1,171 @@
+\documentclass{article}
+\usepackage{MazzoleniNotation}
+\usepackage{geometry}
+\geometry{
+	letterpaper,
+	left=1in,
+	right=1in,
+	top=1in,
+	bottom=1in,
+}
+
+\begin{document}
+	
+	\title{Mazzoleni Notation Development Document}
+	\author{Engineering Mechanics and Space Systems Laboratory\\
+	Rodney Metoyer\\
+	Chris Yoder}
+	
+	\maketitle
+	
+	\section{Overview}
+	The purpose of this document is to facilitate communication while developing a standard style and syntax for Mazzoleni notation in Latex.
+	
+	\section{Style Guide}
+	The following guidelines should be followed:
+	\begin{itemize}
+		\item Commands should start with a lowercase letter
+		\item Use camel case for commands
+		\item Use snake case for labels
+		\item Arguments should in order by precedence
+			\begin{itemize}
+				\item Frame
+				\item Vector
+				\item Point
+			\end{itemize}
+	\end{itemize}
+		
+	% Use the commands
+	\section{Frames}
+	A frame (sometimes \textit{reference frame}) defines a space. It may be thought of as a massless rigid body, and rigid bodies often serve as fixtures for frames. As a conceptual entity, a frame has meaning independent of basis vectors, rigid bodies, or coordinate systems, but the easiest way to define a frame is with a set of basis vectors. In the Mazzoleni notation, basis vectors are expressed with they frame that they are referring to explicitly noted, as shown in \ref{eqn_basis}.
+	\begin{equation}
+	\label{eqn_basis}
+	\basisVec{i}{B}
+	\end{equation}
+	
+	\begin{equation}
+	\label{eqn_frame}
+	\refFrame{B}
+	\end{equation}
+	We define a frame by specifying the point at which the origin is located and a basis set, as in \ref{eqn_framedef}.
+	\begin{equation}
+	\label{eqn_framedef}
+	\refFrame{A} = \refFrameDefIJK{A}{A}
+	\end{equation}
+	
+	\section{Position Vectors}
+	Position vectors may be independent (i.e. have only direction and magnitude) or defined with respect to two points in space. In both cases, position vectors may be expressed in a frame (i.e. with respect to a vector basis) or independent of a basis. The independent form is given by \ref{eqn1}.
+	\begin{equation}
+		\label{eqn1}
+		\gVec{r}
+	\end{equation}
+	The default point defined form is given by \ref{eqn2}.
+	\begin{equation}
+		\label{eqn2}
+		\posVecP{r}{a}{b}
+	\end{equation}
+	A vector is typically parameterized when it is expressed in a frame, although it does not need to be. Position vectors are often parameterized with x, y, and z as the scalar values when projected on the \gVec{i}, \gVec{j}, and \gVec{k} basis vectors, respectively. In that case, the position vector expressed in a frame may be written as \ref{eqn_exp}.
+	\begin{equation}
+		\label{eqn_exp}
+		\gVec{r} = \gVecExp{O}{x}{y}{z}
+	\end{equation} 
+	Or, using i-j-k notation, the position vector may be expressed in a frame as \ref{eqn_exp_ijk}. This is the standard way to express a vector function in Mazzoleni notation.
+	\begin{equation}
+	\label{eqn_exp_ijk}
+	\posVecP{r}{a}{b} = \gVecExpIJK{O}{x}{y}{z}
+	\end{equation}
+	
+	
+	\section{Velocity Vectors}
+	Position vectors are differentiated in a frame to produce a velocity vector as in \ref{eqn_vec}. 
+	\begin{equation}
+	\label{eqn_vec}
+	\velVec{A}{v}
+	\end{equation}
+	Velocity vectors can also be defined with respect to points as in \ref{eqn_vecP}.
+	\begin{equation}
+	\label{eqn_vecP}
+	\velVecP{A}{v}{a}{b}
+	\end{equation}
+	
+	\section{Angular Momentum}
+	The definition of angular momentum is given by \ref{eqn_angMomFull}
+	\begin{equation}
+	\label{eqn_angMomFull}
+	\angMomFull{A}{h}{c}{a}{b} = \posVecP{r}{a}{b} \times m\velVecP{A}{v}{a}{c}
+	\end{equation}
+	This is the form that will be used more often.
+	\begin{equation}
+	\label{eqn_angMom}
+	\angMom{O}{h}{a}{b} = \posVecP{r}{a}{b} \times m\velVecP{A}{v}{a}{O}
+	\end{equation}
+	Sometimes for a system of particles it is convenient to shorten the notation to a point and a frame. In that case use command that makes \ref{eqn_angMomS}.
+	\begin{equation}
+	\label{eqn_angMomS}
+	\angMomS{O}{h}{B,sys} = \posVecP{r}{a}{b} \times m\velVecP{A}{v}{a}{O}
+	\end{equation}
+	
+	\section{Command Tables}
+	This section provides a table of the commands.
+	
+	% Frame commands
+	\begin{table}[h!]
+		\caption{Reference frame commands.}
+	\begin{tabular}[]{ p{1.75in} | p{1.25in} | p{3in} }	
+		\hline	
+		\textbf{Command} & \textbf{Renders} & \textbf{Description} \\ 
+		\hline
+		\verb|\refFrame{O}| & \refFrame{O} & Reference frame \\
+		\verb|\refFrameDefIJK{A}{A}| & \refFrameDefIJK{A}{A} & Frame definition \\
+		\hline		
+	\end{tabular}
+	\end{table}
+	
+	% Generic vector commands
+	\begin{table}[h!]
+		\caption{Generic vector commands.}
+		\begin{tabular}[]{ p{1.75in} | p{1.25in} | p{3in} }	
+			\hline	
+			\textbf{Command} & \textbf{Renders} & \textbf{Description} \\ 
+			\hline
+			\verb|\gVec{q}| & \gVec{q} & Generic vector \\  
+			\verb|\basisVec{i}{B}| & \basisVec{i}{B} & Basis vector \\
+			\verb|\gVecExp{O}{x}{y}{z}| & \gVecExp{O}{x}{y}{z} & Generic vector expressed in a frame \\
+			\verb|\gVecExpIJK{O}{x}{y}{z}| & \gVecExpIJK{O}{x}{y}{z} & Generic vector expressed in a frame \\
+			\hline		
+		\end{tabular}
+	\end{table}
+	
+	% Position vector commands
+	\begin{table}[h!]
+		\caption{Position vector commands.}
+		\begin{tabular}[]{ p{1.75in} | p{1.25in} | p{3in} }	
+			\hline	
+			\textbf{Command} & \textbf{Renders} & \textbf{Description} \\ 
+			\hline
+			\verb|\posVec{r}| & \posVec{r} & Basis independent position vector \\  
+			\verb|\posVecP{r}{a}{b}| & \posVecP{r}{a}{b} & Point dependent position vector \\
+			\hline		
+		\end{tabular}
+	\end{table}
+	
+	% Frame dependent vector commands
+	\begin{table}[h!]
+		\caption{Frame dependent vector commands.}
+		\begin{tabular}[]{ p{2in} | p{1.0in} | p{3in} }	
+			\hline	
+			\textbf{Command} & \textbf{Renders} & \textbf{Description} \\ 
+			\hline
+			\verb|\velVec{O}{v}| & \velVec{O}{v} & Velocity vector \\
+			\verb|\velVecP{A}{v}{a}{b}| & \velVecP{A}{v}{a}{b} & Velocity vector with points noted \\
+			\verb|\angMomFull{A}{h}{c}{a}{b}| & \angMomFull{A}{h}{c}{a}{b} & Fully defined angular momentum vector \\
+			\verb|\angMom{O}{h}{a}{b}| & \angMom{O}{h}{a}{b} & Abridged angular momentum vector \\
+			\verb|\angMomS{O}{h}{B,sys}| & \angMomS{O}{h}{B,sys} & Further abridged angular momentum vector \\
+			\hline		
+		\end{tabular}
+	\end{table}
+	
+	
+\end{document}
+	
+	

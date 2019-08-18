@@ -1,0 +1,26 @@
+\ProvidesPackage{MazzoleniNotation}
+\RequirePackage{amsmath, amssymb, amsfonts}
+\RequirePackage{leftidx}
+
+%% List of Commands
+% These commands can be migrated to a style sheet when development is finished
+% Generic commands
+\newcommand{\slashfrac}[2]{\ensuremath{{}^{#1}\!/_{#2}}}
+% Mazzoleni notation specific commands
+% Frames
+\newcommand{\refFrame}[1]{\ensuremath{\bar{#1}}}
+\newcommand{\refFrameDefIJK}[2]{\ensuremath{\{{#1},\basisVec{i}{#2}, \basisVec{j}{#2}, \basisVec{k}{#2}\}}}
+% Vectors
+\newcommand{\basisVec}[2]{\ensuremath{\vec{#1}_{\bar{#2}}}}
+\newcommand{\gVec}[1]{\ensuremath{\vec{#1}}}
+\newcommand{\gVecExp}[4]{\ensuremath{{#2}\basisVec{e_1}{#1} + {#3}\basisVec{e_2}{#1} + {#4}\basisVec{e_3}{#1}}} % not sure how much use this will get
+\newcommand{\gVecExpIJK}[4]{\ensuremath{{#2}\basisVec{i}{#1} + {#3}\basisVec{j}{#1} + {#4}\basisVec{k}{#1}}}
+\newcommand{\posVec}[1]{\ensuremath{\vec{#1}}} % Same as gVec but defined for source code understandability
+\newcommand{\posVecP}[3]{\ensuremath{\vec{#1}_{\slashfrac{#2}{#3}}}}
+
+\newcommand{\velVec}[2]{\ensuremath{^{\bar{#1}}{\vec{#2}}}}
+\newcommand{\velVecP}[4]{\ensuremath{^{\bar{#1}}{\vec{#2}}_{\slashfrac{#3}{#4}}}}
+
+\newcommand{\angMomFull}[5]{\ensuremath{\leftidx{_{#3}^{\bar{#1}}}{\vec{#2}}_{\slashfrac{#4}{#5}}}}
+\newcommand{\angMom}[4]{\ensuremath{\leftidx{^{\bar{#1}}}{\vec{#2}}_{\slashfrac{#3}{#4}}}}
+\newcommand{\angMomS}[3]{\ensuremath{\leftidx{^{\bar{#1}}}{\vec{#2}}_{#3}}}
