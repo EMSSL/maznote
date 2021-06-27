@@ -1,20 +1,24 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{MazzoleniNotation}[2016/12/22]
-\RequirePackage{MnSymbol}
-\RequirePackage{graphicx}
+\ProvidesPackage{MazzoleniNotation_rev3}[2020/10/05]
+%\RequirePackage{MnSymbol}
+%\RequirePackage{graphicx}
 \RequirePackage{amsmath}
-\RequirePackage{leftidx}
-\RequirePackage{amssymb}
-\RequirePackage{amsfonts}
+%\RequirePackage{leftidx}
+%\RequirePackage{amssymb}
+%\RequirePackage{amsfonts}
 %\RequirePackage{xfrac}
+
 
 % Modification table:
 % 1. CDY, 12/26/2016, Original writing
 % 2. CDY, 07/24/2017, Added functions regarding quaternions in BCO matrix, etc.
 % 3. CDY, 07/26/2017, Fixed errors in quaternions
 % 4. CDY, 08/02/2017, Added corrections to quaternion functions as per feedback.
+% 5. CDY, 02/21/2020, Fixed errors with Overleaf. 
+% 6. CDY, 09/30/2020, Fixed Partial, Frame derivatives. 
+% 7. CDY, 11/19/2020, Added generic 3x3 matrix
 
-% Defien the custom formatting
+% Define the custom formatting
 % Write fractions with slash:
 \newcommand*\Rfrac[2]{\ensuremath{{}^{#1}\!/_{#2}}}
 
@@ -68,8 +72,8 @@
 \newcommand*\PosVec[2]{\ensuremath{\vec{r}_{\Rfrac{#1}{#2}}}}						% w/out a frame
 
 % Write a rotation matrix about a given unit vector:
-\newcommand*\RotateMat[2]{\ensuremath{ ^{\bar{#1}}\lbrack{C}\rbrack^{\bar{#2}}}}			% just BCO matrix
-\newcommand*\RotateMatDot[2]{\ensuremath{ ^{\bar{#1}}\lbrack{\dot{C}}\rbrack^{\bar{#2}}}}			% just BCO derivative matrix
+\newcommand*\RotateMat[2]{\ensuremath{ {}^{\bar{#1}}\lbrack{C}\rbrack^{\bar{#2}}}}			% just BCO matrix
+\newcommand*\RotateMatDot[2]{\ensuremath{ {}^{\bar{#1}}\lbrack{\dot{C}}\rbrack^{\bar{#2}}}}			% just BCO derivative matrix
 \newcommand*\RotateMatX[1]{\ensuremath{
 	\begin{bmatrix}
 		1 & 0 & 0 \\
@@ -92,19 +96,37 @@
 	\end{bmatrix}
 }}
 
-% Upper right index
-\newcommand{\UpRight}[2]{\ensuremath{\leftidx{^{\bar{#1}}}{#2}}}
+% Upper right index, {<frame>}{<main>}
+% \newcommand{\UpRight}[2]{\ensuremath{\leftidx{\>^{\bar{#1}}}{#2}}}
+% \newcommand{\UpRight}[2]{\ensuremath{{{}^{\bar{#1}}}{#2}}}
+\newcommand{\UpRight}[2]{\ensuremath{{^{\bar{#1}}}{\!#2}}}
 
-% Derivative
-\newcommand{\Deriv}[2][]{% \deriv[<order>]{<func>}{<var>}
+% Derivative, #1 order, #2 variable
+\newcommand{\Deriv}[2][]{% \deriv[<order>]{<var>}
 	\ensuremath{\frac{d^{#1}}{d{#2}^{#1}}}}
 %\newcommand{\sDeriv}[2][]{% \deriv[<order>]{<func>}{<var>}
 	%\ensuremath{\sfrac{d^{#1}}{d{#2}^{#1}}}}
-
-
+	
 % Partial
 \newcommand{\Partl}[2][]{% \deriv[<order>]{<func>}{<var>}
 	\ensuremath{\frac{\partial^{#1}}{\partial{#2}^{#1}}}}
+
+% Frame derivative
+%   \FrameDeriv[<order>]{<frame>}{<var>}
+% \newcommand{\FrameDeriv}[3][]{% \FrameDeriv[<order>]{<frame>}{<var>}
+% 	\ensuremath{\UpRight{#1}{\frac{d^{#2}}{d{#3}^{#2}}}}}
+% \newcommand{\FrameDeriv}[3][]{\UpRight{#2}{\Deriv[#1]{#3}}}
+\newcommand{\FrameDeriv}[3][]{
+    \raisebox{9pt}{\footnotesize \ensuremath{\bar{#2}}}\!{\Deriv[#1]{#3}}}
+% inline version    
+\newcommand{\iFrameDeriv}[3][]{
+    \raisebox{7pt}{\tiny \ensuremath{\bar{#2}}}\!{\Deriv[#1]{#3}}}
+
+% Partial frame
+\newcommand{\FramePartl}[3][]{
+    \raisebox{9pt}{\small \ensuremath{\bar{#2}}}\!{\Partl[#1]{#3}}}
+
+
 
 % Write a derivative:
 \newcommand*\ddt{\ensuremath{\frac{d}{dt}}}
@@ -115,7 +137,7 @@
 \newcommand*\Fddtn[2]{\ensuremath{\leftidx{^{\bar{#1}}}{\ddtn{#2}}}}
 
 % Write an angular velocity vector:
-\newcommand*\AngVel[2]{\ensuremath{^{\bar{#1}}\vec{\omega}^{\bar{#2}}}}
+\newcommand*\AngVel[2]{\,\,\ensuremath{\!\!^{\bar{#1}}\vec{\omega}^{\bar{#2}}}}
 
 % Write the full form for wx, wy, wz
 % modified on 07-18-2019 from APM comments
@@ -127,22 +149,36 @@
 \newcommand*\wZ[2]{\ensuremath{\{0, 1, 0\}\RotateMat{#1}{#2}\RotateMatDot{#2}{#1}\VecExpressV{1}{0}{0}}}
 
 % Write a velocity vector:
-\newcommand*\VelVec[3]{\ensuremath{^{\bar{#1}}{\vec{v}}_{\Rfrac{#2}{#3}}}}
+\newcommand*\VelVec[3]{\ensuremath{\,\,^{\bar{#1}}{\vec{v}}_{\Rfrac{#2}{#3}}}}
 
 % Write the Cross product
-\newcommand*\Cross[2]{\ensuremath{#1\times#2}}
+% \newcommand*\Cross[2]{\ensuremath{#1}\times\ensuremath{#2}}
+\newcommand*\Cross[2]{\ensuremath{#1}\times\ensuremath{#2}}
 
 % Write the transport theorem, 1st derivative
-\newcommand*\TransOne[3]{\UpRight{#1}{\Deriv[]{t}}{#3} = \UpRight{#2}{\Deriv[]{t}}{#3} + \Cross{\AngVel{#1}{#2}}{#3}}
+% \TransOne{frame-1}{frame-2}{vector}
+% \newcommand*\TransOne[3]{\UpRight{#1}{\Deriv[]{t}}{#3} = \UpRight{#2}{\Deriv[]{t}}{#3} + \Cross{\AngVel{#1}{#2}}{#3}}
+% \FrameDeriv[2]{A}{t}
+% \FrameDeriv[<order>]{<frame>}{<var>}
+\newcommand*\TransOne[3]{\FrameDeriv[]{#1}{t}{#3} = \FrameDeriv[]{#2}{t}{#3} + \Cross{\AngVel{#1}{#2}}{#3}}
+
+% inline version
+\newcommand*\iTransOne[3]{\iFrameDeriv[]{#1}{t}{#3} = \iFrameDeriv[]{#2}{t}{#3} + \Cross{\AngVel{#1}{#2}}{#3}}
+
 
 % Write an angular acceleration vector
-\newcommand*\AngAccl[2]{\ensuremath{^{\bar{#1}}\vec{\alpha}^{\bar{#2}}}}
+\newcommand*\AngAccl[2]{\ensuremath{{}^{\bar{#1}}\vec{\alpha}^{\bar{#2}}}}
 
 % Write an acceleration vector:
-\newcommand*\AcclVec[3]{\ensuremath{ ^{\bar{#1}}{\vec{a}}_{\Rfrac{#2}{#3}}}}
+\newcommand*\AcclVec[3]{\ensuremath{ {}^{\bar{#1}}{\vec{a}}_{\Rfrac{#2}{#3}}}}
 
 % Write the transport theorem, 2nd derivative
-\newcommand*\TransTwo[3]{\UpRight{#1}{\Deriv[2]{t}}{#3} = \UpRight{#2}{\Deriv[2]{t}}{#3} + 2\Cross{\AngVel{#1}{#2}}\UpRight{#2}{\Deriv[]{t}}{#3} + \Cross{\AngAccl{#1}{#2}}{#3} + \Cross{\AngVel{#1}{#2}}{\left(\Cross{\AngVel{#1}{#2}}{#3}\right)}}
+% \newcommand*\TransTwo[3]{\UpRight{#1}{\Deriv[2]{t}}{#3} = \UpRight{#2}{\Deriv[2]{t}}{#3} + 2\Cross{\AngVel{#1}{#2}}\UpRight{#2}{\Deriv[]{t}}{#3} + \Cross{\AngAccl{#1}{#2}}{#3} + \Cross{\AngVel{#1}{#2}}{\left(\Cross{\AngVel{#1}{#2}}{#3}\right)}}
+% \FrameDeriv[2]{A}{t}
+% \FrameDeriv[<order>]{<frame>}{<var>}
+\newcommand*\TransTwo[3]{\FrameDeriv[2]{#1}{t}{#3} = \FrameDeriv[2]{#2}{t}{#3} + 2\Cross{\AngVel{#1}{#2}}\FrameDeriv{#2}{t}{#3} + \Cross{\AngAccl{#1}{#2}}{#3} + \Cross{\AngVel{#1}{#2}}{\left(\Cross{\AngVel{#1}{#2}}{#3}\right)}}
+% inline version
+\newcommand*\iTransTwo[3]{\iFrameDeriv[2]{#1}{t}{#3} = \iFrameDeriv[2]{#2}{t}{#3} + 2\Cross{\AngVel{#1}{#2}}\iFrameDeriv{#2}{t}{#3} + \Cross{\AngAccl{#1}{#2}}{#3} + \Cross{\AngVel{#1}{#2}}{\left(\Cross{\AngVel{#1}{#2}}{#3}\right)}}
 
 % Write the inertia tensor
 \newcommand*\Inert[1]{\ensuremath{\tilde{I}_{#1}}}
@@ -157,7 +193,8 @@
 % \newcommand*\InertDyad[3]{}
 
 % Write an angular momentum vector:
-\newcommand*\AngMom[3]{\ensuremath{\leftidx{_{#2}^{\bar{#1}}}{\vec{h}}{_#3}}}
+% \newcommand*\AngMom[3]{\ensuremath{\leftidx{_{#2}^{\bar{#1}}}{\vec{h}}{_#3}}}
+\newcommand*\AngMom[3]{\ensuremath{{}_{#2}^{\bar{#1}}{\vec{h}}_{{#3}}}}
 
 % Write a force vector:
 \newcommand*\Fext{\ensuremath{\sum{\vec{F}_{ext}}}}
@@ -214,7 +251,8 @@
 }}
 
 % Rotation matrices
-\newcommand*\Rotate[2]{\ensuremath{[R{#1}]_{{#2}}}}
+% \newcommand*\Rotate[2]{\ensuremath{[R{#1}]_{{#2}}}}
+\newcommand*\Rotate[2]{\ensuremath{[R_{{#2}}({#1})]}}   % 2020-02-18
 
 % Cross product
 \newcommand*\CrossProd[7]{\ensuremath{
@@ -235,6 +273,14 @@
 \end{bmatrix}	
 }}
 
+% generic matrix
+\newcommand*\GenMat[9]{\ensuremath{
+	\begin{bmatrix}
+		#1 & #2 & #3 \\
+		#4 & #5 & #6 \\
+		#7 & #8 & #9 
+	\end{bmatrix}
+}}
 
 
 \endinput

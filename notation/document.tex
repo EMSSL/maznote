@@ -1,0 +1,396 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{MazzoleniNotation_rev3}
+\usepackage{tabularx}
+
+\usepackage[margin=1in]{geometry}
+% \usepackage[showframe]{geometry}
+
+
+\title{EMSSL-syntax, rev2}
+\author{Christopher D. yoder}
+\date{September 29$^{th}$ 2020}
+
+\begin{document}
+\maketitle
+
+\noindent
+Angular momentum: \verb|\AngMom{derivative-frame}{reference-point}{point}|\\
+Example: \verb|\AngMom{O}{P}{A}|\\
+Output:
+\begin{equation*}
+    \AngMom{O}{P}{A}
+\end{equation*}
+
+\noindent
+Acceleration: \verb|\AcclVec{derivative-frame}{point}{with-respect-to}|\\
+Example: \verb|\AcclVec{O}{A}{Q}|\\
+Output:
+\begin{equation*}
+    \AcclVec{O}{A}{Q}
+\end{equation*}
+
+\noindent
+Angular Acceleration: \verb|\AngAccl{frame-1}{frame-2}|\\
+Example: \verb|\AngAccl{O}{B}|\\
+Output:
+\begin{equation*}
+    \AngAccl{O}{B}
+\end{equation*}
+
+\noindent
+Angular Velocity: \verb|\AngAccl{frame-1}{frame-2}|\\
+Example: \verb|\AngAccl{O}{B}|\\
+Output:
+\begin{equation*}
+    \AngAccl{O}{B}
+\end{equation*}
+
+\noindent
+Cross two vectors: \verb|\Cross{vector-1}{vector-2}|\\
+Example: \verb|\Cross{A}{B}|\\
+Output:
+\begin{equation*}
+    \Cross{A}{B}
+\end{equation*}
+
+\noindent
+Cross product expression: \verb|\CrossProd{frame}{a}{b}{c}{d}{e}{f}|\\
+Example: \verb|\CrossProd{frame}{a}{b}{c}{d}{e}{f}|\\
+Output:
+\begin{equation*}
+    \CrossProd{O}{a}{b}{c}{d}{e}{f}
+\end{equation*}
+
+\noindent
+Derivative: \verb|\Deriv[order]{with-respect-to-variable}|\\
+Example: \verb|\Deriv[]{x}|\\
+Output:
+\begin{equation*}
+    \Deriv[]{x}
+\end{equation*}
+Example: \verb|\Deriv[3]{t}|\\
+\begin{equation*}
+    \Deriv[3]{t}
+\end{equation*}
+
+\noindent
+Direction cosine matrix: \verb|\DirectCosMat|\\
+Example: \verb|\DirectCosMat|\\
+Output:
+\begin{equation*}
+    \DirectCosMat
+\end{equation*}
+
+\noindent
+Sum of external forces: \verb|\Fext|\\
+Example: \verb|\Fext|\\
+Output:
+\begin{equation*}
+    \Fext
+\end{equation*}    
+
+\noindent
+Frame: \verb|\Frame{vector}{frame}|\\
+Example: \verb|\Frame{A}{B}|\\
+Output:
+\begin{equation*}
+    \Frame{A}{B}
+\end{equation*}    
+
+\noindent
+Frame definition: \verb|\FrameDef{point}{frame}|\\
+Example: \verb|\FrameDef{Q}{O}|\\
+Output:
+\begin{equation*}
+    \FrameDef{Q}{O}
+\end{equation*}  
+
+\noindent
+Frame w/ derivative: \verb|\FrameDeriv[<order>]{<frame>}{<var>}{<fun>}|\\
+Inline version: \verb|\iFrameDeriv[<order>]{<frame>}{<var>}{<fun>}|\\
+Example: \verb|\FrameDeriv[2]{A}{r}{t}|\\
+Output:
+\begin{equation*}
+    \FrameDeriv[2]{A}{t}{r}
+\end{equation*}  
+
+\noindent
+Inertia: \verb|\Inert{point}|\\
+Example: \verb|\Inert{A}|\\
+Output:
+\begin{equation*}
+    \Inert{A}
+\end{equation*}  
+
+\noindent
+Inertia w/ frame: \verb|\InertF{point}{frame}|\\
+Example: \verb|\InertF{A}{B}|\\
+Output:
+\begin{equation*}
+    \InertF{A}{B}
+\end{equation*}  
+
+\noindent
+Inertia tensor: \verb|\InertMat|\\
+Example: \verb|\InertMat|\\
+Output:
+\begin{equation*}
+    \InertMat
+\end{equation*}  
+
+\noindent
+Lagrangian: \verb|\Lagr|\\
+Example: \verb|\Lagr|\\
+Output:
+\begin{equation*}
+    \Lagr
+\end{equation*}  
+
+\noindent
+Omega matrix: \verb|\OmegaMat|\\
+Example: \verb|\OmegaMat|\\
+Output:
+\begin{equation*}
+    \OmegaMat
+\end{equation*} 
+
+\noindent
+Partial derivative: \verb|\Partl[order]{with-respect-to-variable}|\\
+Example: \verb|\Partl[]{x}|\\
+Output:
+\begin{equation*}
+    \Partl[]{x}
+\end{equation*} 
+Example: \verb|\Partl[3]{t}|\\
+Output:
+\begin{equation*}
+    \Partl[3]{t}
+\end{equation*} 
+
+\noindent
+Partial framed derivative: \verb|\FramePartl[order]{frame}{with-respect-to-variable}|\\
+Example: \verb|\FramePartl[2]{A}{x}|\\
+Output:
+\begin{equation*}
+    \FramePartl[2]{A}{x}
+\end{equation*} 
+
+\noindent
+Position vector: \verb|\PosVec{point}{with-respect-to-point}|\\
+Example: \verb|\PosVec{A}{Q}|\\
+Output:
+\begin{equation*}
+    \PosVec{A}{Q}
+\end{equation*} 
+
+\noindent
+Quaternion angles: \verb|\QuatAngle|\\
+Example: \verb|\QuatAngle|\\
+Output:
+\begin{equation*}
+    \QuatAngle
+\end{equation*} 
+
+\noindent
+Quaternion BCO matrix: \verb|\QuatBCO|\\
+Example: \verb|\QuatBCO|\\
+Output:
+\begin{equation*}
+    \QuatBCO
+\end{equation*} 
+
+\noindent
+Quaternion definition: \verb|\QuatDef{frame}|\\
+Example: \verb|\QuatDef{B}|\\
+Output:
+\begin{equation*}
+    \QuatDef{B}
+\end{equation*} 
+
+\noindent
+Quaternion derivative: \verb|\QuatDot|\\
+Example: \verb|\QuatDot|\\
+Output:
+\begin{equation*}
+    \QuatDot
+\end{equation*} 
+
+\noindent
+Slanted fraction: \verb|\Rfrac{numerator}{denominator}|\\
+Example: \verb|\Rfrac{A}{B}|\\
+Output:
+\begin{equation*}
+    \Rfrac{A}{B}
+\end{equation*} 
+
+\noindent
+Rotation matrix form: \verb|\Rotate{angle}{axis}|\\
+Example: \verb|\Rotate{\phi}{X}|\\
+Output:
+\begin{equation*}
+    \Rotate{\phi}{X}
+\end{equation*} 
+
+\noindent
+Rotation matrix: \verb|\RotateMat{frame-1}{frame-2}|\\
+Example: \verb|\RotateMat{B}{O}|\\
+Output:
+\begin{equation*}
+    \RotateMat{B}{O}
+\end{equation*} 
+
+\noindent
+Rotation matrix derivative: \verb|\RotateMatDot{frame-1}{frame-2}|\\
+Example: \verb|\RotateMatDot{B}{O}|\\
+Output:
+\begin{equation*}
+    \RotateMatDot{B}{O}
+\end{equation*} 
+
+\noindent
+Rotation matrix about X: \verb|\RotateMatX{angle}|\\
+Example: \verb|\RotateMatX{\theta}|\\
+Output:
+\begin{equation*}
+    \RotateMatX{\theta}
+\end{equation*} 
+
+\noindent
+Rotation matrix about Y: \verb|\RotateMatY{angle}|\\
+Example: \verb|\RotateMatY{\theta}|\\
+Output:
+\begin{equation*}
+    \RotateMatY{\theta}
+\end{equation*} 
+
+\noindent
+Rotation matrix about Z: \verb|\RotateMatZ{angle}|\\
+Example: \verb|\RotateMatZ{\theta}|\\
+Output:
+\begin{equation*}
+    \RotateMatZ{\theta}
+\end{equation*} 
+
+\noindent
+Sum of external torques: \verb|\Text[point]|\\
+Example: \verb|\Text|\\
+Output:
+\begin{equation*}
+    \Text
+\end{equation*} 
+Example: \verb|\Text[P]|\\
+Output:
+\begin{equation*}
+    \Text[P]
+\end{equation*} 
+
+\noindent
+1st transport theorem: \verb|\TransOne{frame-1}{frame-2}{vector}|\\
+Inline version: \verb|\iTransOne{frame-1}{frame-2}{vector}|\\
+Example: \verb|\TransOne{O}{B}{A}|\\
+Output:
+\begin{equation*}
+    \TransOne{O}{B}{A}
+\end{equation*} 
+
+\noindent
+2nd transport theorem: \verb|\TransTwo{frame-1}{frame-2}{vector}|\\
+Inline version: \verb|\iTransTwo{frame-1}{frame-2}{vector}|\\
+Example: \verb|\TransTwo{O}{B}{A}|\\
+Output:
+\begin{equation*}
+    \TransTwo{O}{B}{A}
+\end{equation*} 
+
+
+\noindent
+Dyad: \verb|\UnitDyad{unit-vector}{unit-vector}{frame}|\\
+Example: \verb|\UnitDyad{i}{k}{B}|\\
+Output:
+\begin{equation*}
+    \UnitDyad{i}{k}{B}
+\end{equation*} 
+
+\noindent
+Unit vector: \verb|\UnitVec{vector}{frame}|\\
+Example: \verb|\UnitVec{i}{O}|\\
+Output:
+\begin{equation*}
+    \UnitVec{i}{O}
+\end{equation*} 
+
+\noindent
+Left superscript frame: \verb|\UpRight{frame}{quantity}|\\
+Example: \verb|\UpRight{O}{A}|\\
+Output:
+\begin{equation*}
+    \UpRight{O}{A}
+\end{equation*} 
+
+\noindent
+Horizontal vector: \verb|\VecExpressH{frame}{element-1}{element-2}{element-3}|\\
+Example: \verb|\VecExpressH{D}{a}{b}{c}|\\
+Output:
+\begin{equation*}
+    \VecExpressH{D}{a}{b}{c}
+\end{equation*} 
+
+\noindent
+Vertical vector: \verb|\VecExpressV{element-1}{element-2}{element-3}|\\
+Example: \verb|\VecExpressV{a}{b}{c}|\\
+Output:
+\begin{equation*}
+    \VecExpressV{a}{b}{c}
+\end{equation*} 
+
+\noindent
+4-element vertical vector: \verb|\VecExpressVF{element-1}{element-2}{element-3}{element-4}|\\
+Example: \verb|\VecExpressVF{a}{b}{c}{d}|\\
+Output:
+\begin{equation*}
+    \VecExpressVF{a}{b}{c}{d}
+\end{equation*} 
+
+\noindent
+Velocity vector \verb|\VelVec{derivative-frame}{point}{with-respect-to-point}|\\
+Example: \verb|\VelVec{O}{A}{Q}|\\
+Output:
+\begin{equation*}
+    \VelVec{O}{A}{Q}
+\end{equation*} 
+
+\noindent
+Angular velocity definition, X \verb|\wX{frame-1}{frame-2}|\\
+Example: \verb|\wX{B}{O}|\\
+Output:
+\begin{equation*}
+    \wX{B}{O}
+\end{equation*} 
+
+\noindent
+Angular velocity definition, Y \verb|\wY{frame-1}{frame-2}|\\
+Example: \verb|\wY{B}{O}|\\
+Output:
+\begin{equation*}
+    \wY{B}{O}
+\end{equation*} 
+
+\noindent
+Angular velocity definition, Z \verb|\wZ{frame-1}{frame-2}|\\
+Example: \verb|\wZ{B}{O}|\\
+Output:
+\begin{equation*}
+    \wZ{B}{O}
+\end{equation*} 
+
+% looking to fix the issues with the inline commands
+\noindent The velocity vector $\VelVec{O}{A}{O}$ should be fine.\\
+\noindent The transport theorem, rev2, is $\TransOne{O}{A}{\PosVec{B}{O}}$ \\
+\noindent The transport theorem, rev3, is $\iTransOne{O}{A}{\PosVec{B}{O}}$\\
+
+\noindent The transport theorem, rev2, is $\TransTwo{O}{A}{\PosVec{B}{O}}$ \\
+\noindent The transport theorem, rev3, is $\iTransTwo{O}{A}{\PosVec{B}{O}}$
+
+
+\end{document}
